@@ -7,7 +7,6 @@ import  Contact  from '../contact.model';
   styleUrls: ['./contact-item.component.css']
 })
 export class ContactItemComponent implements OnInit {
-  //get Recipe from recipe list as Input
   @Input()
   contact!: Contact;
 
