@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { ContactService } from './../contact.service';
+import { Component, Input } from '@angular/core';
 import Contact from '../contact.model';
 
 @Component({
@@ -6,7 +7,11 @@ import Contact from '../contact.model';
   templateUrl: './contact-detail.component.html',
   styleUrls: ['./contact-detail.component.css']
 })
-export class ContactDetailComponent {
-  public contact!:Contact
+export class ContactDetailComponent{
+  @Input() contact!: Contact
+  
+  constructor() {
+    
+  }
 
 }

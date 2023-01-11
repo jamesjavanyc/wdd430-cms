@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Contact from '../contact.model';
+import { ContactService } from "../contact.service"
 
 @Component({
   selector: 'app-contact-list',
@@ -7,6 +8,7 @@ import Contact from '../contact.model';
   styleUrls: ['./contact-list.component.css']
 })
 export class ContactListComponent implements OnInit {
+
   public contacts: Contact[] = [
     new Contact("1",
       "R. Kent Jackson",
@@ -24,9 +26,20 @@ export class ContactListComponent implements OnInit {
     )
   ]
 
+  @Output() selectContactEvent = new EventEmitter<Contact>()
+
+  constructor(private contactService: ContactService) {
+    
+  }
+
   ngOnInit(): void {
     return
-    throw new Error('Method not implemented.');
+  }
+
+  onSelected(contact: Contact): void{
+    //  successfully emit
+    // console.log(contact)
+    this.selectContactEvent.emit(contact);
   }
 
 }
