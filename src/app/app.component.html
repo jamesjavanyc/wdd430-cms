@@ -1,8 +1,8 @@
 
-<app-header (selectedFeatureEvent)="switchView($event)"></app-header>
+<cms-header (selectedFeatureEvent)="switchView($event)"></cms-header>
 <div class="container pull-left" [ngSwitch]="selectedFeature">
-    <app-documents *ngSwitchCase="'document'"></app-documents>
-    <app-message-list *ngSwitchCase="'message'"></app-message-list>
-    <app-contacts *ngSwitchCase="'contact'"></app-contacts>
+    <cms-documents *ngSwitchCase="'document'"></cms-documents>
+    <cms-message-list *ngSwitchCase="'message'"></cms-message-list>
+    <cms-contacts *ngSwitchCase="'contact'"></cms-contacts>
 </div>
 <router-outlet></router-outlet>

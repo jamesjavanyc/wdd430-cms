@@ -2,7 +2,7 @@ import { Component, ViewChild, Output, EventEmitter, OnInit, ElementRef } from '
 import Message from '../message-list/message.model';
 
 @Component({
-  selector: 'app-message-edit',
+  selector: 'cms-message-edit',
   templateUrl: './message-edit.component.html',
   styleUrls: ['./message-edit.component.css']
 })
