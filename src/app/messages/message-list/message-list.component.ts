@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import Message from './message.model';
 
 @Component({
   selector: 'app-message-list',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./message-list.component.css']
 })
 export class MessageListComponent {
+  @Input() messages: Message[] = [
+    new Message("1", "food", "Hello world.", "Anderson"),
+    new Message("2","foodie", "Hello world1.", "Anderson1"),
+  ]
+  
 
 }
