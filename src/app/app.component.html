@@ -1,7 +1,8 @@
 
-
-<app-header></app-header>
-
-<app-contacts></app-contacts>
-
+<app-header (selectedFeatureEvent)="switchView($event)"></app-header>
+<div class="container pull-left">
+    <app-documents></app-documents>
+    <app-message-list></app-message-list>
+    <app-contacts></app-contacts>
+</div>
 <router-outlet></router-outlet>

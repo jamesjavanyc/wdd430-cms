@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 // 组件装饰器 
 @Component({
@@ -14,5 +14,11 @@ import { Component } from '@angular/core';
   
   // 导出的组件类
 export class HeaderComponent {
+  // 创建事件，在点击nav的时候获取用户要的widget
+  @Output() selectedFeatureEvent = new EventEmitter<string>();
+
+  onSelected(selectedEvent:string): void{
+    this.selectedFeatureEvent.emit(selectedEvent);
+  }
 
 }
