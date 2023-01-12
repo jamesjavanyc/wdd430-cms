@@ -12,5 +12,8 @@ export class MessageListComponent {
     new Message("2","foodie", "Hello world1.", "Anderson1"),
   ]
   
+  onAddMessage(message: Message):void {
+    this.messages.push(message);
+  }
 
 }
