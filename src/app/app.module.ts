@@ -21,7 +21,7 @@ import { MessageItemComponent } from './messages/message-item/message-item.compo
 import { MessageListComponent } from './messages/message-list/message-list.component';
 
 @NgModule({
-  // 自定义组件
+  // 声明组件， 管道符 指令
   declarations: [
     AppComponent,
     HeaderComponent,
@@ -38,13 +38,14 @@ import { MessageListComponent } from './messages/message-list/message-list.compo
     MessageItemComponent,
     MessageListComponent,
   ],
-  // 导入组件
+  // 模块 针对全局
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule
   ],
+  // 服务注入
   providers: [ContactService],
   bootstrap: [AppComponent]
 })
