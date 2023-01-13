@@ -11,7 +11,7 @@ export class DocumentsComponent implements OnInit {
 
   selectedDocument!: Document;
 
-  setSelectedDocument(document: any) {
+  setSelectedDocument(document: Document) {
     this.selectedDocument = document;
   }
 
