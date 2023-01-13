@@ -1,5 +1,3 @@
-import Contact from "@app/contacts/contact.model"
-
 export default class Message{
 
     public id: string;

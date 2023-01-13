@@ -19,6 +19,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { MessageEditComponent } from './messages/message-edit/message-edit.component';
 import { MessageItemComponent } from './messages/message-item/message-item.component';
 import { MessageListComponent } from './messages/message-list/message-list.component';
+import { DropdownDirective } from './shared/dropdown.directive';
 
 @NgModule({
   // 声明组件， 管道符 指令
@@ -37,6 +38,7 @@ import { MessageListComponent } from './messages/message-list/message-list.compo
     MessageEditComponent,
     MessageItemComponent,
     MessageListComponent,
+    DropdownDirective,
   ],
   // 模块 针对全局
   imports: [

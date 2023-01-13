@@ -1,5 +1,5 @@
 import { Component, ViewChild, Output, EventEmitter, OnInit, ElementRef } from '@angular/core';
-import Message from '../message-list/message.model';
+import Message from '../message.model';
 
 @Component({
   selector: 'cms-message-edit',

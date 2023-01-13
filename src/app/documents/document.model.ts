@@ -1,10 +1,10 @@
 export default class Document{
     constructor(
-        id: String,
-        name: String,
-        description: String,
-        url: String,
-        children: Document[]
+        public id: String,
+        public name: String,
+        public description: String,
+        public url: String,
+        public children: Document[]
     ) {
         
     }

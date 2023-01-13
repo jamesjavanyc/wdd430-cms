@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import Message from '../message-list/message.model';
+import Message from '../message.model';
 
 @Component({
   selector: 'cms-message-item',
