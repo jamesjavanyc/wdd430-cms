@@ -16,7 +16,7 @@ export class DocumentService {
   }
 
   getDocuments(): Document[] {
-    return this.documents.splice(0, this.documents.length - 1)
+    return this.documents.slice(0, this.documents.length)
   }
 
   getDocument(id: string): Document {

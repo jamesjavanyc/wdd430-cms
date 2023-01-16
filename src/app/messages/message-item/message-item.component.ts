@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import Contact from '@app/contacts/contact.model';
+import { ContactService } from '@app/contacts/contact.service';
 import Message from '../message.model';
 
 @Component({
@@ -9,7 +11,15 @@ import Message from '../message.model';
 export class MessageItemComponent implements OnInit{
   @Input() message!: Message;
 
-  ngOnInit(): void {
+  messageSender: string;
 
+  constructor(private contactService: ContactService) {
+    
   }
+
+  ngOnInit(): void {
+    const contact: Contact = this.contactService.getContact(this.message.sender)
+    this.messageSender = contact?contact.name:""
+  }
+
 }
