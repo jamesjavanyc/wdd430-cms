@@ -6,6 +6,8 @@
     "paths": {
       "@app/*":["src/app/*"]
     },
+    "strictPropertyInitialization": false,
+    "strictNullChecks":false,
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,

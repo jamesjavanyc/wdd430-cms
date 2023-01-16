@@ -48,7 +48,7 @@ import { DropdownDirective } from './shared/dropdown.directive';
     HttpClientModule
   ],
   // 服务注入
-  providers: [ContactService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 

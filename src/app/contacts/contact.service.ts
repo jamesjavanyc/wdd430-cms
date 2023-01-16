@@ -1,12 +1,34 @@
-import { Injectable} from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
+import Contact from './contact.model';
+import {MOCKCONTACTS} from './MOCKCONTACTS';
 
 
-@Injectable({
+@Injectable(
+    {
     // 向root module中注入唯一的contactService单例
-    providedIn: 'root'
-})
+        providedIn: 'root'
+    }
+)
 export class ContactService {
-    constructor() {
 
+    contacts: Contact[] = [];
+    contactSelectedEvent = new EventEmitter<Contact>();
+
+    constructor() {
+        this.contacts = MOCKCONTACTS;
+    }
+
+    getContacts(): Contact[]{
+        return this.contacts.splice(0, this.contacts.length - 1)
+    }
+
+    getContact(id: string): Contact{
+        let res: Contact = null
+        for (let contact of this.contacts){
+            if (contact.id === id) {
+                res = contact;
+            }
+        }
+        return res;
     }
 }

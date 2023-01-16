@@ -9,37 +9,23 @@ import { ContactService } from "../contact.service"
 })
 export class ContactListComponent implements OnInit {
 
-  public contacts: Contact[] = [
-    new Contact("1",
-      "R. Kent Jackson",
-      "jacksonk@byui.edu",
-      "208-496-3771",
-      "../../assets/images/jacksonk.jpg",
-      []
-    ),
-    new Contact("2",
-      "Rex Barzee",
-      "barzeer@byui.edu",
-      "208-496-3768",
-      "../../assets/images/barzeer.jpg",
-      []
-    )
-  ]
+  public contacts: Contact[] = [];
 
-  @Output() selectContactEvent = new EventEmitter<Contact>()
+  // @Output() selectContactEvent = new EventEmitter<Contact>()
 
   constructor(private contactService: ContactService) {
     
   }
 
   ngOnInit(): void {
-    return
+    this.contacts = this.contactService.getContacts();
   }
 
   onSelected(contact: Contact): void{
     //  successfully emit
     // console.log(contact)
-    this.selectContactEvent.emit(contact);
+    // this.selectContactEvent.emit(contact);
+    this.contactService.contactSelectedEvent.emit(contact);
   }
 
 }
