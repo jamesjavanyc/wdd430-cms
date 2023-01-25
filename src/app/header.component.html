@@ -6,14 +6,14 @@
 
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li >
-                    <a (click)="onSelected('document')">Documents</a>
+                <li routerLinkActive="active">
+                    <a [routerLink]="'documents'">Documents</a>
                 </li>
-                <li  >
-                    <a  (click)="onSelected('message')">Messages</a>
+                <li  routerLinkActive="active">
+                    <a  [routerLink]="'messages'">Messages</a>
                 </li>
-                <li  >
-                    <a  (click)="onSelected('contact')">Contacts</a>
+                <li  routerLinkActive="active">
+                    <a  [routerLink]="'contacts'">Contacts</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
