@@ -1,4 +1,5 @@
-<a class="list-group-item clearfix documentDiv">
+<a class="list-group-item clearfix documentDiv" 
+    routerLinkActive="active" [routerLink]="document.id.toString()">
     <h4>{{document.name}}</h4>
     <p>{{document.description}}</p>
 </a>

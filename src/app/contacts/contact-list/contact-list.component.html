@@ -6,7 +6,7 @@
         </div>
         <div class="row">
             <div class="pull-right pad-left-right">
-                <a class="pull-right btn btn-success">New Contact</a>
+                <a class="pull-right btn btn-success" routerLink="new">New Contact</a>
             </div>
         </div>
 
@@ -15,8 +15,7 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-xs-12">
-                <cms-contact-item *ngFor="let contact of contacts"  [contact]="contact"
-                    (click)="onSelected(contact)">
+                <cms-contact-item *ngFor="let contact of contacts"  [contact]="contact">
                 </cms-contact-item>
             </div>
         </div>

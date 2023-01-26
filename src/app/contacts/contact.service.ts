@@ -14,6 +14,8 @@ export class ContactService {
     contacts: Contact[] = [];
     contactSelectedEvent = new EventEmitter<Contact>();
 
+    contactChangedEvent = new EventEmitter<Contact[]>();
+
     constructor() {
         this.contacts = MOCKCONTACTS;
     }
@@ -30,5 +32,15 @@ export class ContactService {
             }
         }
         return res;
+    }
+
+    deleteContact(contact: Contact): void{
+        if(!contact) return
+        this.contacts.map((c: Contact, i) => {
+            if (c.id === contact.id) {
+                this.contacts.splice(i, 1)
+            }
+        })
+        this.contactChangedEvent.emit(this.contacts)
     }
 }
