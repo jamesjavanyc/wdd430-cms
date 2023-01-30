@@ -12,9 +12,8 @@ export class ContactListComponent implements OnInit {
 
   public contacts: Contact[] = [];
 
-  subscription:any
+  subscription: Subscription;
 
-  // @Output() selectContactEvent = new EventEmitter<Contact>()
 
   constructor(private contactService: ContactService) {
     
@@ -22,7 +21,7 @@ export class ContactListComponent implements OnInit {
 
   ngOnInit(): void {
     this.contacts = this.contactService.getContacts();
-    this.subscription = this.contactService.contactChangedEvent.subscribe((contacts: Contact[]) => {
+    this.subscription = this.contactService.contactListChangedEvent.subscribe((contacts: Contact[]) => {
       this.contacts = contacts
     })
   }

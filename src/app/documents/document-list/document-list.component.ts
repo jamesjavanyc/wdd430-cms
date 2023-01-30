@@ -11,13 +11,14 @@ import { DocumentService } from '../document.service';
 export class DocumentListComponent implements OnInit {
 
   private subscription: Subscription;
+
   constructor(public documentService: DocumentService) {
     
   }
   
   ngOnInit(): void {
     this.documents = this.documentService.getDocuments();
-    this.subscription = this.documentService.documentChangedEvent.subscribe((documents: Document[]) => {
+    this.subscription = this.documentService.documentListChangedEvent.subscribe((documents: Document[]) => {
       this.documents = documents;
     })
   }
