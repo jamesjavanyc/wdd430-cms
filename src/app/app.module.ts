@@ -23,6 +23,7 @@ import { DropdownDirective } from './shared/dropdown.directive';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
 import { DndModule } from 'ng2-dnd';
+import { ContactsFilterPipe } from './contacts/contacts-filter.pipe';
 
 @NgModule({
   // 声明组件， 管道符 指令
@@ -44,6 +45,7 @@ import { DndModule } from 'ng2-dnd';
     DropdownDirective,
     DocumentEditComponent,
     ContactEditComponent,
+    ContactsFilterPipe,
   ],
   // 模块 针对全局
   imports: [
@@ -51,7 +53,8 @@ import { DndModule } from 'ng2-dnd';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    DndModule.forRoot()
+    DndModule.forRoot(),
+    HttpClientModule
   ],
   // 服务注入
   providers: [],

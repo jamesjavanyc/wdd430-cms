@@ -14,6 +14,8 @@ export class ContactListComponent implements OnInit {
 
   subscription: Subscription;
 
+  term: String = '';
+
 
   constructor(private contactService: ContactService) {
     
@@ -26,6 +28,13 @@ export class ContactListComponent implements OnInit {
     })
   }
 
+  onKeyPress(value: string) {
+    this.term = value;
+  }
+
+  search(value: string) {
+    this.term = value;
+  }
   onDestory(): void{
     this.subscription.unsubscribe()
   }

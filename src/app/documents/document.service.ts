@@ -2,6 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 import Document from "./document.model"
 import { Subject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,18 +11,34 @@ export class DocumentService {
 
   maxId: number;
 
+  http: HttpClient;
+
   documents: Document[] = [];
 
   documentSelectedEvent = new EventEmitter<Document>()
 
   documentListChangedEvent = new Subject<Document[]>();
 
-  constructor() {
-    this.documents = MOCKDOCUMENTS;
+  constructor(http: HttpClient) {
+    // this.documents = MOCKDOCUMENTS;
     this.maxId = this.getMaxId()
+    this.http = http
   }
 
   getDocuments(): Document[] {
+    this.http.get<{ message: string, documents: Document[] }>
+      ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/documents").subscribe({
+        next: response => {
+          this.documents = response.documents
+          this.maxId = this.getMaxId()
+          this.documents.sort((a, b) =>
+            a.name > b.name ? 1 : a.name < b.name ? -1 : 0
+          )
+          this.documentListChangedEvent.next(this.documents.slice());
+        },
+        error: error =>
+          console.error("HTTP request error:", error)
+      })
     return this.documents.slice(0, this.documents.length)
   }
 
@@ -44,7 +61,8 @@ export class DocumentService {
       return;
     }
     this.documents.splice(pos, 1);
-    this.documentListChangedEvent.next(this.documents.slice());
+    // this.documentListChangedEvent.next(this.documents.slice());
+    this.storeDocuments()
   }
 
   addDocument(document: Document): void {
@@ -54,10 +72,11 @@ export class DocumentService {
     this.maxId++
     document.id = this.maxId.toString()
     this.documents.push(document)
-    this.documentListChangedEvent.next(this.documents.slice());
+    // this.documentListChangedEvent.next(this.documents.slice());
+    this.storeDocuments()
   }
 
-  updateDocument(original: Document, newDoc: Document): void{
+  updateDocument(original: Document, newDoc: Document): void {
     if (!original || !newDoc) {
       return
     }
@@ -67,7 +86,8 @@ export class DocumentService {
     }
     newDoc.id = original.id
     this.documents[pos] = newDoc
-    this.documentListChangedEvent.next(this.documents.slice());
+    // this.documentListChangedEvent.next(this.documents.slice());
+    this.storeDocuments()
   }
 
 
@@ -79,5 +99,18 @@ export class DocumentService {
       }
     })
     return maxId
+  }
+
+  storeDocuments() {
+    let documentsStr = JSON.stringify(this.documents)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    this.http.put('https://cms-app-d5fce.firebaseio.com/documents.json', documentsStr, { headers: headers })
+      .subscribe(
+        () => {
+          this.documentListChangedEvent.next(this.documents.slice());
+        }
+      )
   }
 }

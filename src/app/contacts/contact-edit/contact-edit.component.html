@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-sm-12 form-group">
                     <label for="name">Name:</label>
-                    <input #name="ngModel" [(ngModel)]="originalContact.name" 
+                    <input #name="ngModel" [ngModel]="originalContact?.name" 
                     required type="text" name="name"
                     id="name" class="form-control required" size="120" max="120">
                 </div>
@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-sm-12 form-group">
                     <label for="email">Email:</label>
-                    <input #email="ngModel" [(ngModel)]="originalContact.email" 
+                    <input #email="ngModel" [ngModel]="originalContact?.email" 
                     pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                     name="email"
                     type="text" id="email" class="form-control required" size="120" max="255" required>
@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col-sm-12 form-group">
                     <label for="phone">Phone:</label>
-                    <input #phone="ngModel" [(ngModel)]="originalContact.phone" 
+                    <input #phone="ngModel" [ngModel]="originalContact?.phone" 
                     name="phone"
                     pattern="\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*"
                     type="text" id="phone" class="form-control invalid" size="150" max="255">
@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-sm-12 form-group">
                     <label for="imageUrl">Image URL:</label>
-                    <input #imageUrl="ngModel" [(ngModel)]="originalContact.imageUrl" 
+                    <input #imageUrl="ngModel" [ngModel]="originalContact?.imageUrl" 
                     name="imageUrl"
                     type="text" id="imageUrl" class="form-control" size="150" max="255">
                 </div>

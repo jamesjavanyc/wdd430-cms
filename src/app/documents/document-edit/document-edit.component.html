@@ -5,21 +5,21 @@
             <div class="row">
                 <div class="col-sm-12 form-group">
                     <label for="name">Document Title:</label>
-                    <input #name="ngModel" type="text" id="name" name="name" [(ngModel)]="originalDocument.name" class="form-control" size="120" max="120" required>
+                    <input #name="ngModel" type="text" id="name" name="name" [ngModel]="originalDocument?.name" class="form-control" size="120" max="120" required>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-12 form-group">
                     <label for="description">Document Description:</label>
-                    <input type="text" id="description" [(ngModel)]="originalDocument.description" name="description" class="form-control" size="120" max="255">
+                    <input type="text" id="description" [ngModel]="originalDocument?.description" name="description" class="form-control" size="120" max="255">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-12 form-group">
                     <label for="url">Document URL:</label>
-                    <input #documentUrl="ngModel" type="text" id="url" [(ngModel)]="originalDocument.url" name="url" class="form-control" size="150" max="255" required>
+                    <input #documentUrl="ngModel" type="text" id="url" [ngModel]="originalDocument?.url" name="url" class="form-control" size="150" max="255" required>
                 </div>
             </div>
 
