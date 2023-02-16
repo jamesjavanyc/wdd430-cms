@@ -26,8 +26,15 @@ export class DocumentService {
   }
 
   getDocuments(): Document[] {
+    console.log(111)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin":"*"
+    });
     this.http.get<{ message: string, documents: Document[] }>
-      ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/documents").subscribe({
+      ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/documents", {
+        headers:headers
+      }).subscribe({
         next: response => {
           this.documents = response.documents
           this.maxId = this.getMaxId()

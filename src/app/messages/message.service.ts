@@ -18,7 +18,7 @@ export class MessageService {
 
   constructor(http: HttpClient) { 
     this.http = http
-    this.messages = MOCKMESSAGES
+    // this.messages = MOCKMESSAGES
   }
 
   getMessages(): Message[] {
@@ -63,11 +63,11 @@ export class MessageService {
 
 
   storeMessages() {
-    let documentsStr = JSON.stringify(this.messages)
+    let str = JSON.stringify(this.messages)
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    this.http.put('https://cms-app-d5fce.firebaseio.com/messages.json', documentsStr, { headers: headers })
+    this.http.put('https://cms-app-d5fce.firebaseio.com/messages.json', str, { headers: headers })
       .subscribe(
         () => {
           this.messageChangedEvent.next(this.messages.slice());
