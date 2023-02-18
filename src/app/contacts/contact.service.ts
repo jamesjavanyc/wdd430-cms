@@ -33,10 +33,10 @@ export class ContactService {
     }
 
     getContacts(): Contact[] {
-        this.http.get<{ message: string, contacts: Contact[] }>
-            ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/contacts").subscribe({
+        this.http.get<Contact[] >
+            ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/contacts.json").subscribe({
                 next: response => {
-                    this.contacts = response.contacts
+                    this.contacts = response
                     this.maxId = this.getMaxId()
                     this.contactListChangedEvent.next(this.contacts.slice());
                 },

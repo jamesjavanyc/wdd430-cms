@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 import Document from "./document.model"
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -11,40 +11,38 @@ export class DocumentService {
 
   maxId: number;
 
-  http: HttpClient;
-
   documents: Document[] = [];
 
   documentSelectedEvent = new EventEmitter<Document>()
 
   documentListChangedEvent = new Subject<Document[]>();
 
-  constructor(http: HttpClient) {
+  constructor(private http: HttpClient) {
     // this.documents = MOCKDOCUMENTS;
     // this.maxId = this.getMaxId()
-    this.http = http
   }
 
   getDocuments(): Document[] {
-    console.log(111)
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin":"*"
+      "Access-Control-Allow-Origin": "*"
     });
-    this.http.get<{ message: string, documents: Document[] }>
-      ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/documents", {
-        headers:headers
+    this.http.get<  Document[] >
+      ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/documents.json", {
+        headers: headers
       }).subscribe({
         next: response => {
-          this.documents = response.documents
+          this.documents = response
           this.maxId = this.getMaxId()
           this.documents.sort((a, b) =>
             a.name > b.name ? 1 : a.name < b.name ? -1 : 0
           )
           this.documentListChangedEvent.next(this.documents.slice());
         },
-        error: error =>
+        error: error => {
+          console.log()
           console.error("HTTP request error:", error)
+        }
       })
     return this.documents.slice(0, this.documents.length)
   }

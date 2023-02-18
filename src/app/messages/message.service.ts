@@ -22,10 +22,10 @@ export class MessageService {
   }
 
   getMessages(): Message[] {
-    this.http.get<{ message: string, messages: Message[] }>
-    ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/messages").subscribe({
+    this.http.get<Message[] >
+    ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/messages.json").subscribe({
       next: response => {
-        this.messages = response.messages
+        this.messages = response
         this.maxId = this.getMaxId()
         this.messageChangedEvent.next(this.messages.slice());
       },
