@@ -1,3 +1,4 @@
+import { ContactService } from '@app/contacts/contact.service';
 import { EventEmitter, Injectable } from '@angular/core';
 import Message from './message.model';
 import { MOCKMESSAGES } from './MOCKMESSAGES';
@@ -16,8 +17,9 @@ export class MessageService {
 
   messageChangedEvent = new EventEmitter<Message[]>()
 
-  constructor(http: HttpClient) { 
+  constructor(http: HttpClient, contactService:ContactService) { 
     this.http = http
+    contactService.getContacts()
     // this.messages = MOCKMESSAGES
   }
 
@@ -67,7 +69,7 @@ export class MessageService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    this.http.put('https://cms-app-d5fce.firebaseio.com/messages.json', str, { headers: headers })
+    this.http.put('https://wdd430-ceb4f-default-rtdb.firebaseio.com/messages.json', str, { headers: headers })
       .subscribe(
         () => {
           this.messageChangedEvent.next(this.messages.slice());

@@ -27,12 +27,13 @@ export class DocumentService {
       'Content-Type': 'application/json',
       "Access-Control-Allow-Origin": "*"
     });
-    this.http.get<  Document[] >
-      ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/documents.json", {
+    this.http.get<CommonResponse<Document[]>>
+      ("http://localhost:5000/documents", {
+      // ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/documents.json", {
         headers: headers
       }).subscribe({
         next: response => {
-          this.documents = response
+          this.documents = response.data
           this.maxId = this.getMaxId()
           this.documents.sort((a, b) =>
             a.name > b.name ? 1 : a.name < b.name ? -1 : 0
@@ -65,9 +66,11 @@ export class DocumentService {
     if (pos < 0) {
       return;
     }
-    this.documents.splice(pos, 1);
-    // this.documentListChangedEvent.next(this.documents.slice());
-    this.storeDocuments()
+    this.http.delete('http://localhost:5000/documents/' + document.id).subscribe(() => {
+      this.documents.splice(pos, 1);
+      this.documentListChangedEvent.next(this.documents.slice());
+    })
+    // this.storeDocuments()
   }
 
   addDocument(document: Document): void {
@@ -77,8 +80,8 @@ export class DocumentService {
     this.maxId++
     document.id = this.maxId.toString()
     this.documents.push(document)
-    // this.documentListChangedEvent.next(this.documents.slice());
-    this.storeDocuments()
+    this.documentListChangedEvent.next(this.documents.slice());
+    // this.storeDocuments()
   }
 
   updateDocument(original: Document, newDoc: Document): void {
@@ -91,8 +94,8 @@ export class DocumentService {
     }
     newDoc.id = original.id
     this.documents[pos] = newDoc
-    // this.documentListChangedEvent.next(this.documents.slice());
-    this.storeDocuments()
+    this.documentListChangedEvent.next(this.documents.slice());
+    // this.storeDocuments()
   }
 
 
@@ -106,16 +109,16 @@ export class DocumentService {
     return maxId
   }
 
-  storeDocuments() {
-    let documentsStr = JSON.stringify(this.documents)
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-    this.http.put('https://cms-app-d5fce.firebaseio.com/documents.json', documentsStr, { headers: headers })
-      .subscribe(
-        () => {
-          this.documentListChangedEvent.next(this.documents.slice());
-        }
-      )
-  }
+  // storeDocuments() {
+  //   let documents = JSON.stringify(this.documents)
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json'
+  //   });
+  //   this.http.put('https://wdd430-ceb4f-default-rtdb.firebaseio.com/documents.json', documents, { headers: headers })
+  //     .subscribe(
+  //       () => {
+  //         this.documentListChangedEvent.next(this.documents.slice());
+  //       }
+  //     )
+  // }
 }

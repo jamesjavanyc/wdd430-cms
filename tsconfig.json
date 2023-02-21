@@ -4,7 +4,8 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@app/*":["src/app/*"]
+      "@app/*":["src/app/*"],
+      "@server/*":["server/*"]
     },
     "strictPropertyInitialization": false,
     "strictNullChecks":false,

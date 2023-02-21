@@ -47,6 +47,9 @@ export class ContactService {
     }
 
     getContact(id: string): Contact {
+        if (this.contacts.length == 0) {
+            this.getContacts()
+        }
         let res: Contact = null
         for (let contact of this.contacts) {
             if (contact.id === id) {
@@ -106,7 +109,7 @@ export class ContactService {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
         });
-        this.http.put('https://cms-app-d5fce.firebaseio.com/contacts.json', contacts, { headers: headers })
+        this.http.put('https://wdd430-ceb4f-default-rtdb.firebaseio.com/contacts.json', contacts, { headers: headers })
             .subscribe(()=>this.contactListChangedEvent.next(this.contacts.slice()));
     }
 }
