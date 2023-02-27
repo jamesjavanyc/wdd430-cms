@@ -1,3 +1,4 @@
+import { CommonResponse } from './../http/response.model';
 import { ContactService } from '@app/contacts/contact.service';
 import { EventEmitter, Injectable } from '@angular/core';
 import Message from './message.model';
@@ -24,10 +25,10 @@ export class MessageService {
   }
 
   getMessages(): Message[] {
-    this.http.get<Message[] >
-    ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/messages.json").subscribe({
+    this.http.get<CommonResponse<Message[]> >
+    ("http://localhost:5000/messages").subscribe({
       next: response => {
-        this.messages = response
+        this.messages = response.data
         this.maxId = this.getMaxId()
         this.messageChangedEvent.next(this.messages.slice());
       },
@@ -58,23 +59,42 @@ export class MessageService {
   }
 
   addMessage(message: Message) {
+    if (!message) {
+      //exit
+      return;
+    }
     this.messages.push(message)
     // this.messageChangedEvent.emit(this.messages.slice(0, this.messages.length))
-    this.storeMessages()
-  }
-
-
-  storeMessages() {
-    let str = JSON.stringify(this.messages)
-    const headers = new HttpHeaders({
+     //set headers
+      const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    this.http.put('https://wdd430-ceb4f-default-rtdb.firebaseio.com/messages.json', str, { headers: headers })
-      .subscribe(
-        () => {
-          this.messageChangedEvent.next(this.messages.slice());
-        }
-      )
+
+    //convert object to string to send on request
+    message.id = '';
+    const strMessage = JSON.stringify(message);
+
+    //send request with object and headers
+    this.http.post('http://localhost:3000/messages', strMessage, { headers: headers })
+      //subscribe to response
+      .subscribe(() => {
+        this.messages.push(message)
+        this.messageChangedEvent.next(this.messages.slice());
+      });
   }
+
+
+  // storeMessages() {
+  //   let str = JSON.stringify(this.messages)
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json'
+  //   });
+  //   this.http.put('http://localhost:5000/messages', str, { headers: headers })
+  //     .subscribe(
+  //       () => {
+  //         this.messageChangedEvent.next(this.messages.slice());
+  //       }
+  //     )
+  // }
 
 }

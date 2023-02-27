@@ -1,9 +1,16 @@
 const express = require('express');
-const {responseError} = require("./utils")
+function responseError(res, error) {
+    res.status(500).json({
+        message: 'An error occurred',
+        error: error
+    });
+}
 const router = express.Router();
 const Contact = require('../models/contact');
+const sequenceGenerator = require('./sequenceGenerator');
 
 router.get('/', (req, res, next) => {
+
     Contact.find()
         .populate('group')
         .then(contacts => {

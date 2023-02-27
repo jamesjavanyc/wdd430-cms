@@ -17,15 +17,13 @@ const messageRoutes = require('./server/routes/messages');
 const contactRoutes = require('./server/routes/contacts.js');
 const documentsRoutes = require('./server/routes/documents');
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true }, (err, res) => {
-    if (err) {
-        console.log('Could not connect to Database');
-    } else {
-        console.log('Connected to database...')
-    }
-});
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => { console.log("Mongoose connect success.") })
+    .catch(e => console.error("Mongoose fail to connect." ,e))
 
 const app = express();
+
+app.disable('etag');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -34,13 +32,14 @@ app.use(logger('dev'));
 
 app.use(express.static(path.join(__dirname, 'dist/cms')));
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist/cms/index.html'));
-});
 app.use('/', index);
 app.use('/messages', messageRoutes);
 app.use('/contacts', contactRoutes);
 app.use('/documents', documentsRoutes);
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist/cms/index.html'));
+});
 
 app.use((err, req, res, next) => {
     logger.error(err.message, err);

@@ -3,6 +3,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import Contact from './contact.model';
 import { MOCKCONTACTS } from './MOCKCONTACTS';
 import { Subject } from 'rxjs';
+import { CommonResponse } from '@app/http/response.model';
 
 
 @Injectable(
@@ -33,10 +34,10 @@ export class ContactService {
     }
 
     getContacts(): Contact[] {
-        this.http.get<Contact[] >
-            ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/contacts.json").subscribe({
+        this.http.get<CommonResponse<Contact[]> >
+            ("http://localhost:5000/contacts").subscribe({
                 next: response => {
-                    this.contacts = response
+                    this.contacts = response.data
                     this.maxId = this.getMaxId()
                     this.contactListChangedEvent.next(this.contacts.slice());
                 },
@@ -57,6 +58,7 @@ export class ContactService {
             }
         }
         return res;
+        
     }
 
     deleteContact(contact: Contact): void {
@@ -96,6 +98,7 @@ export class ContactService {
 
     getMaxId(): number {
         let maxId: number = 0
+        console.log(this.contacts)
         this.contacts.forEach((doc) => {
             if (Number(doc.id) > maxId) {
                 maxId = Number(doc.id)
@@ -109,7 +112,7 @@ export class ContactService {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
         });
-        this.http.put('https://wdd430-ceb4f-default-rtdb.firebaseio.com/contacts.json', contacts, { headers: headers })
+        this.http.put('http://localhost:5000/contacts', contacts, { headers: headers })
             .subscribe(()=>this.contactListChangedEvent.next(this.contacts.slice()));
     }
 }

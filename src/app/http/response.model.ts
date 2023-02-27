@@ -1,4 +1,4 @@
-class CommonResponse<T>{
+export class CommonResponse<T>{
     constructor(
         public message: String,
         public data: T

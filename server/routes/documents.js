@@ -1,7 +1,13 @@
 const express = require('express'); 
 const router = express.Router();
-const {responseError} = require("./utils")
+function responseError(res, error) {
+    res.status(500).json({
+        message: 'An error occurred',
+        error: error
+    });
+}
 const Document = require('../models/document'); 
+const sequenceGenerator = require('./sequenceGenerator');
 
 router.get('/', (req, res, next) => {
     Document.find()
@@ -18,7 +24,9 @@ router.get('/', (req, res, next) => {
 );
 
 router.post('/', (req, res, next) => {
+    const maxContactId = sequenceGenerator.nextId("documents");
     const document = new Document({
+        id: maxContactId,
         name: req.body.name,
         description: req.body.description,
         url: req.body.url
@@ -31,6 +39,7 @@ router.post('/', (req, res, next) => {
             });
         })
         .catch(error => {
+            console.log(error)
             responseError(res, error);
         });
 });

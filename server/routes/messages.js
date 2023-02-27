@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const {responseError} = require("./utils")
+function responseError(res, error) {
+    res.status(500).json({
+        message: 'An error occurred',
+        error: error
+    });
+}
+const sequenceGenerator = require('./sequenceGenerator');
 
 const Message = require('../models/message');
 

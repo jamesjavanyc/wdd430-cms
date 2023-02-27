@@ -3,6 +3,7 @@ import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 import Document from "./document.model"
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CommonResponse } from "../http/response.model"
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class DocumentService {
     });
     this.http.get<CommonResponse<Document[]>>
       ("http://localhost:5000/documents", {
-      // ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/documents.json", {
+        // ("https://wdd430-ceb4f-default-rtdb.firebaseio.com/documents.json", {
         headers: headers
       }).subscribe({
         next: response => {
@@ -45,6 +46,11 @@ export class DocumentService {
           console.error("HTTP request error:", error)
         }
       })
+    if (this.documents.length == 0) {
+      // fetch("").forEach(document => {
+      //   this.addDocument(document)
+      // })
+    }
     return this.documents.slice(0, this.documents.length)
   }
 
@@ -81,22 +87,48 @@ export class DocumentService {
     document.id = this.maxId.toString()
     this.documents.push(document)
     this.documentListChangedEvent.next(this.documents.slice());
-    // this.storeDocuments()
+        const headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+    });
+    this.http.post('http://localhost:5000/documents', document, { headers: headers })
+    //subscribe to response
+    .subscribe(
+      () => {
+        //assign document list
+        this.documents.push(document);
+        //emit the change
+        this.documentListChangedEvent.next(this.documents.slice());
+      });
   }
 
-  updateDocument(original: Document, newDoc: Document): void {
-    if (!original || !newDoc) {
-      return
+
+  updateDocument(originalDocument: Document, newDocument: Document) {
+    if (!originalDocument || !newDocument) {
+      return;
     }
-    let pos: number = this.documents.indexOf(original)
+
+    const pos = this.documents.findIndex(d => d.id === originalDocument.id);
+
     if (pos < 0) {
-      return
+      return;
     }
-    newDoc.id = original.id
-    this.documents[pos] = newDoc
-    this.documentListChangedEvent.next(this.documents.slice());
-    // this.storeDocuments()
+
+    // set the id of the new Document to the id of the old Document
+    newDocument.id = originalDocument.id;
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    // update database
+    this.http.put('http://localhost:3000/documents/' + originalDocument.id,
+      newDocument, { headers: headers })
+      .subscribe(
+        () => {
+          this.documents[pos] = newDocument;
+          this.documentListChangedEvent.next(this.documents.slice());
+        }
+      );
   }
+
 
 
   getMaxId(): number {
