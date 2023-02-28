@@ -43,10 +43,14 @@ router.get('/:id', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
+    const maxContactId = sequenceGenerator.nextId("contacts");
     const contact = new Contact({
+        id: maxContactId,
+        group: req.body.group,
+        phone: req.body.phone,
         name: req.body.name,
-        description: req.body.description,
-        url: req.body.url,
+        email: req.body.email,
+        imageUrl: req.body.imageUrl,
         group: req.body.group
     });
     if (contact.group && contact.group.length > 0) {
@@ -70,9 +74,11 @@ router.post('/', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
     Contact.findOne({ id: req.params.id })
         .then(contact => {
+            contact.group = req.body.group,
             contact.name = req.body.name;
-            contact.description = req.body.description;
-            contact.url = req.body.url;
+            contact.imageUrl = req.body.imageUrl;
+            contact.phone = req.body.phone;
+            contact.email = req.body.email;
             Contact.updateOne({ id: req.params.id }, contact)
                 .then(result => {
                     res.status(204).json({

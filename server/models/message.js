@@ -14,7 +14,7 @@ const messageSchema = new Schema({
         required: true
     },
     sender: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: 'Contact'
     }
 })

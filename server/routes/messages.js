@@ -12,7 +12,7 @@ const Message = require('../models/message');
 
 router.get('/', (req, res, next) => {
     Message.find()
-        .populate('sender')
+        // .populate('sender')
         .then(messages => {
             res.status(200).json({
                 message: 'Messages fetched successfully',
@@ -20,17 +20,19 @@ router.get('/', (req, res, next) => {
             });
         })
         .catch(error => {
+            console.log(error)
             responseError(res, error);
         });
 }
 );
 
 router.post('/', (req, res, next) => {
-
+    const maxMessageId = sequenceGenerator.nextId("messages");
     const message = new Message({
-        name: req.body.name,
-        description: req.body.description,
-        url: req.body.url
+        id: maxMessageId,
+        subject: req.body.subject,
+        msgText: req.body.msgText,
+        sender: req.body.sender
     });
 
     message.save()
@@ -41,6 +43,7 @@ router.post('/', (req, res, next) => {
             });
         })
         .catch(error => {
+            console.log(error)
             responseError(res, error);
         });
 });
@@ -48,9 +51,9 @@ router.post('/', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
     Message.findOne({ id: req.params.id })
         .then(message => {
-            message.name = req.body.name;
-            message.description = req.body.description;
-            message.url = req.body.url;
+            message.subject= req.body.subject,
+            message.msgText= req.body.msgText,
+            message.sender= req.body.sender
             Message.updateOne({ id: req.params.id }, message)
                 .then(result => {
                     res.status(204).json({

@@ -34,16 +34,28 @@ export class ContactService {
     }
 
     getContacts(): Contact[] {
-        this.http.get<CommonResponse<Contact[]> >
+        this.http.get<CommonResponse<Contact[]>>
             ("http://localhost:5000/contacts").subscribe({
                 next: response => {
                     this.contacts = response.data
+                    // this.contacts.forEach((c) => {
+                    //     this.deleteContact(c)
+                    // })
                     this.maxId = this.getMaxId()
                     this.contactListChangedEvent.next(this.contacts.slice());
                 },
                 error: error =>
                     console.error("HTTP request error:", error)
             })
+        // if (this.contacts.length == 0) {
+        //     fetch("../../assets/week11/contacts.json")
+        //         .then(res => res.json())
+        //         .then(res => {
+        //             for (let d of res) {
+        //                 this.addContact(d)
+        //             }
+        //         })
+        // }
         return this.contacts.slice(0, this.contacts.length)
     }
 
@@ -58,7 +70,7 @@ export class ContactService {
             }
         }
         return res;
-        
+
     }
 
     deleteContact(contact: Contact): void {
@@ -68,8 +80,11 @@ export class ContactService {
                 this.contacts.splice(i, 1)
             }
         })
-        // this.contactListChangedEvent.next(this.contacts.slice())
-        this.storeContacts()
+        this.http.delete("http://localhost:5000/contacts/" + contact.id).subscribe(
+            () => {
+                console.log(1)
+            }
+        )
     }
 
     updateContact(original: Contact, newCont: Contact): void {
@@ -81,9 +96,10 @@ export class ContactService {
             return
         }
         newCont.id = original.id
-        this.contacts[pos] = newCont
-        // this.contactListChangedEvent.next(this.contacts.slice())
-        this.storeContacts()
+        this.http.put("http://localhost:5000/contacts/"+ newCont.id, newCont).subscribe((res) => {
+            this.contacts[pos] = newCont
+            this.contactListChangedEvent.next(this.contacts.slice())
+        })
     }
 
     addContact(contact: Contact): void {
@@ -91,14 +107,15 @@ export class ContactService {
             return
         }
         contact.id = (++this.maxId).toString()
-        this.contacts.push(contact)
-        // this.contactListChangedEvent.next(this.contacts.slice())
-        this.storeContacts()
+        // this.contacts.push(contact)
+        this.http.post("http://localhost:5000/contacts", contact).subscribe((res) => {
+            this.contacts.push(contact)
+            this.contactListChangedEvent.next(this.contacts.slice())
+        })
     }
 
     getMaxId(): number {
         let maxId: number = 0
-        console.log(this.contacts)
         this.contacts.forEach((doc) => {
             if (Number(doc.id) > maxId) {
                 maxId = Number(doc.id)
@@ -107,12 +124,12 @@ export class ContactService {
         return maxId
     }
 
-    storeContacts() {
-        let contacts = JSON.stringify(this.contacts)
-        const headers = new HttpHeaders({
-            'Content-Type': 'application/json'
-        });
-        this.http.put('http://localhost:5000/contacts', contacts, { headers: headers })
-            .subscribe(()=>this.contactListChangedEvent.next(this.contacts.slice()));
-    }
+    // storeContacts() {
+    //     let contacts = JSON.stringify(this.contacts)
+    //     const headers = new HttpHeaders({
+    //         'Content-Type': 'application/json'
+    //     });
+    //     this.http.put('http://localhost:5000/contacts', contacts, { headers: headers })
+    //         .subscribe(() => this.contactListChangedEvent.next(this.contacts.slice()));
+    // }
 }

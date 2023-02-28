@@ -29,12 +29,23 @@ export class MessageService {
     ("http://localhost:5000/messages").subscribe({
       next: response => {
         this.messages = response.data
+        console.log(this.messages)
         this.maxId = this.getMaxId()
         this.messageChangedEvent.next(this.messages.slice());
       },
       error: error =>
         console.error("HTTP request error:", error)
     })
+    // if (this.messages.length == 0) {
+    //   fetch("../../assets/week11/messages.json")
+    //     .then(res => res.json())
+    //     .then(res => {
+    //       for (let d of res) {
+    //         console.log(d)
+    //         this.addMessage(d)
+    //       }
+    //     })
+    //   }
     return this.messages.slice(0, this.messages.length)
   }
 
@@ -63,7 +74,6 @@ export class MessageService {
       //exit
       return;
     }
-    this.messages.push(message)
     // this.messageChangedEvent.emit(this.messages.slice(0, this.messages.length))
      //set headers
       const headers = new HttpHeaders({
@@ -75,7 +85,7 @@ export class MessageService {
     const strMessage = JSON.stringify(message);
 
     //send request with object and headers
-    this.http.post('http://localhost:3000/messages', strMessage, { headers: headers })
+    this.http.post('http://localhost:5000/messages', strMessage, { headers: headers })
       //subscribe to response
       .subscribe(() => {
         this.messages.push(message)

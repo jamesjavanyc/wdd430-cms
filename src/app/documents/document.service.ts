@@ -46,11 +46,6 @@ export class DocumentService {
           console.error("HTTP request error:", error)
         }
       })
-    if (this.documents.length == 0) {
-      // fetch("").forEach(document => {
-      //   this.addDocument(document)
-      // })
-    }
     return this.documents.slice(0, this.documents.length)
   }
 
@@ -95,7 +90,6 @@ export class DocumentService {
     .subscribe(
       () => {
         //assign document list
-        this.documents.push(document);
         //emit the change
         this.documentListChangedEvent.next(this.documents.slice());
       });
@@ -119,7 +113,7 @@ export class DocumentService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     // update database
-    this.http.put('http://localhost:3000/documents/' + originalDocument.id,
+    this.http.put('http://localhost:5000/documents/' + originalDocument.id,
       newDocument, { headers: headers })
       .subscribe(
         () => {
