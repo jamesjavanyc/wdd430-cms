@@ -1,4 +1,5 @@
-const express = require('express'); 
+const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
 function responseError(res, error) {
     res.status(500).json({
@@ -6,7 +7,7 @@ function responseError(res, error) {
         error: error
     });
 }
-const Document = require('../models/document'); 
+const Document = require('../models/document');
 const sequenceGenerator = require('./sequenceGenerator');
 
 router.get('/', (req, res, next) => {
@@ -24,7 +25,7 @@ router.get('/', (req, res, next) => {
 );
 
 router.post('/', (req, res, next) => {
-    const maxContactId = sequenceGenerator.nextId("documents");
+    const maxContactId = uuidv4();
     const document = new Document({
         id: maxContactId,
         name: req.body.name,
@@ -44,31 +45,34 @@ router.post('/', (req, res, next) => {
         });
 });
 
-router.put('/:id', (req, res, next) => {
-    Document.findOne({ id: req.params.id })
-        .then(document => {
-            document.name = req.body.name;
-            document.description = req.body.description;
-            document.url = req.body.url;
-            Document.updateOne({ id: req.params.id }, document)
-                .then(result => {
-                    res.status(204).json({
-                        message: 'Document updated successfully'
-                    })
+router.put('/:id', async(req, res, next) => {
+    try {
+        let document = {
+                id :req.params.id,
+                name : req.body.name,
+                description : req.body.description,
+                url : req.body.url
+            }
+        Document.updateOne({ id: req.params.id }, document)
+            .then(result => {
+                res.status(204).json({
+                    message: 'Document updated successfully'
                 })
-                .catch(error => {
-                    responseError(res, error);
-                });
-        })
-        .catch(error => {
-            res.status(500).json({
-                message: 'Document not found.',
-                error: { document: 'Document not found' }
+            })
+            .catch(error => {
+                console.log(error)
+                responseError(res, error);
             });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message: 'Document not found.',
+            error: { document: 'Document not found' }
         });
+    };
 });
 
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
     Document.findOne({ id: req.params.id })
         .then(document => {
             Document.deleteOne({ id: req.params.id })

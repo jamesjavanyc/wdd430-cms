@@ -89,9 +89,7 @@ export class DocumentService {
     //subscribe to response
     .subscribe(
       () => {
-        //assign document list
-        //emit the change
-        this.documentListChangedEvent.next(this.documents.slice());
+        this.getDocuments()
       });
   }
 
@@ -107,18 +105,16 @@ export class DocumentService {
       return;
     }
 
-    // set the id of the new Document to the id of the old Document
-    newDocument.id = originalDocument.id;
-
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    console.log(newDocument)
+    console.log(originalDocument)
 
     // update database
     this.http.put('http://localhost:5000/documents/' + originalDocument.id,
       newDocument, { headers: headers })
       .subscribe(
         () => {
-          this.documents[pos] = newDocument;
-          this.documentListChangedEvent.next(this.documents.slice());
+          this.getDocuments()
         }
       );
   }
@@ -135,16 +131,4 @@ export class DocumentService {
     return maxId
   }
 
-  // storeDocuments() {
-  //   let documents = JSON.stringify(this.documents)
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json'
-  //   });
-  //   this.http.put('https://wdd430-ceb4f-default-rtdb.firebaseio.com/documents.json', documents, { headers: headers })
-  //     .subscribe(
-  //       () => {
-  //         this.documentListChangedEvent.next(this.documents.slice());
-  //       }
-  //     )
-  // }
 }

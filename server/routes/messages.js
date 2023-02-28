@@ -1,4 +1,5 @@
 const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
 function responseError(res, error) {
     res.status(500).json({
@@ -27,7 +28,7 @@ router.get('/', (req, res, next) => {
 );
 
 router.post('/', (req, res, next) => {
-    const maxMessageId = sequenceGenerator.nextId("messages");
+    const maxMessageId = uuidv4();
     const message = new Message({
         id: maxMessageId,
         subject: req.body.subject,
@@ -49,27 +50,25 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-    Message.findOne({ id: req.params.id })
-        .then(message => {
-            message.subject= req.body.subject,
-            message.msgText= req.body.msgText,
-            message.sender= req.body.sender
-            Message.updateOne({ id: req.params.id }, message)
-                .then(result => {
-                    res.status(204).json({
-                        message: 'Message updated successfully'
-                    })
+    try {
+        let message = {
+            id : req.params.id,
+            subject : req.body.subject,
+            msgText : req.body.msgText,
+            sender : req.body.sender
+        }
+        Message.updateOne({ id: req.params.id }, message)
+            .then(result => {
+                res.status(204).json({
+                    message: 'Message updated successfully'
                 })
-                .catch(error => {
-                    responseError(res, error);
-                });
-        })
-        .catch(error => {
-            res.status(500).json({
-                message: 'Message not found.',
-                error: { message: 'Message not found' }
-            });
+            })
+    } catch (error) {
+        res.status(500).json({
+            message: 'Message not found.',
+            error: { message: 'Message not found' }
         });
+    };
 });
 
 router.delete("/:id", (req, res, next) => {

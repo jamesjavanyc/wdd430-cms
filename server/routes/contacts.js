@@ -1,4 +1,5 @@
 const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 function responseError(res, error) {
     res.status(500).json({
         message: 'An error occurred',
@@ -43,7 +44,7 @@ router.get('/:id', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
-    const maxContactId = sequenceGenerator.nextId("contacts");
+    const maxContactId = uuidv4();
     const contact = new Contact({
         id: maxContactId,
         group: req.body.group,
@@ -72,29 +73,27 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-    Contact.findOne({ id: req.params.id })
-        .then(contact => {
-            contact.group = req.body.group,
-            contact.name = req.body.name;
-            contact.imageUrl = req.body.imageUrl;
-            contact.phone = req.body.phone;
-            contact.email = req.body.email;
-            Contact.updateOne({ id: req.params.id }, contact)
-                .then(result => {
-                    res.status(204).json({
-                        message: 'Contact updated successfully'
-                    })
+    try {
+        let contact = {
+            id : req.params.id,
+            group :req.body.group,
+            name : req.body.name,
+            imageUrl : req.body.imageUrl,
+            phone : req.body.phone,
+            email: req.body.email
+        }
+        Contact.updateOne({ id: req.params.id }, contact)
+            .then(result => {
+                res.status(204).json({
+                    message: 'Contact updated successfully'
                 })
-                .catch(error => {
-                    responseError(res, error);
-                });
-        })
-        .catch(error => {
-            res.status(500).json({
-                message: 'Contact not found.',
-                error: { contact: 'Contact not found' }
-            });
+            })
+    } catch (error) {
+        res.status(500).json({
+            message: 'Contact not found.',
+            error: { contact: 'Contact not found' }
         });
+    };
 });
 
 router.delete("/:id", (req, res, next) => {

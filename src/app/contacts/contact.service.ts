@@ -82,7 +82,7 @@ export class ContactService {
         })
         this.http.delete("http://localhost:5000/contacts/" + contact.id).subscribe(
             () => {
-                console.log(1)
+                this.getContacts()
             }
         )
     }
@@ -109,8 +109,7 @@ export class ContactService {
         contact.id = (++this.maxId).toString()
         // this.contacts.push(contact)
         this.http.post("http://localhost:5000/contacts", contact).subscribe((res) => {
-            this.contacts.push(contact)
-            this.contactListChangedEvent.next(this.contacts.slice())
+            this.getContacts()
         })
     }
 
@@ -124,12 +123,4 @@ export class ContactService {
         return maxId
     }
 
-    // storeContacts() {
-    //     let contacts = JSON.stringify(this.contacts)
-    //     const headers = new HttpHeaders({
-    //         'Content-Type': 'application/json'
-    //     });
-    //     this.http.put('http://localhost:5000/contacts', contacts, { headers: headers })
-    //         .subscribe(() => this.contactListChangedEvent.next(this.contacts.slice()));
-    // }
 }
