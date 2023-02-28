@@ -18,9 +18,9 @@ export class MessageService {
 
   messageChangedEvent = new EventEmitter<Message[]>()
 
-  constructor(http: HttpClient, contactService:ContactService) { 
+  constructor(http: HttpClient, private contactService:ContactService) { 
     this.http = http
-    contactService.getContacts()
+    this.contactService.getContacts()
     // this.messages = MOCKMESSAGES
   }
 
@@ -29,7 +29,6 @@ export class MessageService {
     ("http://localhost:5000/messages").subscribe({
       next: response => {
         this.messages = response.data
-        console.log(this.messages)
         this.maxId = this.getMaxId()
         this.messageChangedEvent.next(this.messages.slice());
       },
