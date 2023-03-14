@@ -1,21 +1,27 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { ContactsComponent } from "./contacts/contacts.component";
-import { DocumentsComponent } from "./documents/documents.component";
-import { MessageListComponent } from "./messages/message-list/message-list.component";
-import { DocumentDetailComponent } from "./documents/document-detail/document-detail.component";
-import { DocumentEditComponent } from "@app/documents/document-edit/document-edit.component";
-import { ContactDetailComponent } from "./contacts/contact-detail/contact-detail.component";
-import { ContactEditComponent } from "./contacts/contact-edit/contact-edit.component";
+import { LoginComponent } from "./login/login.component";
+import { RegisterComponent } from "./register/register.component";
+import { DocumentsComponent } from './documents/posts.component';
+import { DocumentEditComponent } from './documents/post-edit/document-edit.component';
+import { DocumentDetailComponent } from './documents/post-detail/document-detail.component';
 
 const appRoutes: Routes = [
     {
         path: '',
-        redirectTo: '/documents',
+        redirectTo: '/login',
         pathMatch: 'full'
     },
     {
-        path: 'documents',
+        path: 'login',
+        component: LoginComponent,
+    },
+    {
+        path: 'register',
+        component: RegisterComponent,
+    },
+    {
+        path: 'posts',
         component: DocumentsComponent,
         children: [
             {
@@ -33,27 +39,9 @@ const appRoutes: Routes = [
         ]
     },
     {
-        path: 'messages',
-        component: MessageListComponent,
+        path: 'documents',
+        redirectTo: '/posts'
     },
-    {
-        path: 'contacts',
-        component: ContactsComponent,
-        children: [
-            {
-                path: 'new',
-                component: ContactEditComponent
-            },
-            {
-                path: ':id',
-                component: ContactDetailComponent
-            },
-            {
-                path: ':id/edit',
-                component: ContactEditComponent
-            }
-        ]
-    }
 ]
 
 

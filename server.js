@@ -13,9 +13,9 @@ const cors = require("cors")
 dotenv.config()
 
 const index = require('./server/routes/app');
-const messageRoutes = require('./server/routes/messages');
-const contactRoutes = require('./server/routes/contacts.js');
-const documentsRoutes = require('./server/routes/documents');
+const authRoute = require('./server/routes/auth');
+const postRoute = require('./server/routes/post');
+
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => { console.log("Mongoose connect success.") })
@@ -33,9 +33,8 @@ app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'dist/cms')));
 
 app.use('/', index);
-app.use('/messages', messageRoutes);
-app.use('/contacts', contactRoutes);
-app.use('/documents', documentsRoutes);
+app.use("/auth", authRoute)
+app.use("/posts", postRoute)
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/cms/index.html'));

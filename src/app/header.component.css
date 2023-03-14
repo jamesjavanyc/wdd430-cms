@@ -1,3 +1,11 @@
 hr {
     margin: 0;
 }
+.navbar{
+    padding:0.5rem 2rem;
+    background-color: rgb(87, 217, 27,0.5);
+    margin-bottom: 0;
+}
+.dropdown-toggle,.caret{
+    background-color: transparent;
+}

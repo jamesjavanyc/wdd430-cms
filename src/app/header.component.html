@@ -1,29 +1,17 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="#" class="navbar-brand">WeLearn CMS</a>
+            <a href="#" class="navbar-brand">WDD430 - Final Project Blog</a>
         </div>
-
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li routerLinkActive="active">
-                    <a [routerLink]="'documents'">Documents</a>
-                </li>
-                <li  routerLinkActive="active">
-                    <a  [routerLink]="'messages'">Messages</a>
-                </li>
-                <li  routerLinkActive="active">
-                    <a  [routerLink]="'contacts'">Contacts</a>
-                </li>
-            </ul>
+        <div class="collapse navbar-collapse" *ngIf="isLogined">
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown" cmsDropdown>
-                    <a href="#" class="dropdown-toggle" role="button">User <span class="caret"></span></a>
+                    <a  class="dropdown-toggle" role="button">{{auth.email}} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Login</a></li>
-                        <li><a href="#">Other</a></li>
+                        <li><a href="#">Setting</a></li>
+                        <li><a href="#">See posts</a></li>
                         <hr>
-                        <li><a href="#">Logout</a></li>
+                        <li><a href="#" (click)="onLogout">Logout</a></li>
                     </ul>
                 </li>
             </ul>
