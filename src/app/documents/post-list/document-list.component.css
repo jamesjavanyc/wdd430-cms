@@ -1,12 +1,19 @@
 .center-panel {
     margin-left: auto;
     margin-right: auto;
-    width: 38rem;
+    width: 100%;
 }
-
+.panel-heading{
+    background-color: rgb(87, 217, 27,0.3);
+}
+.panel{
+    background-color: transparent;
+}
 .title {
     font-size: 2.5rem;
     font-weight: bold;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .pad-left-right {

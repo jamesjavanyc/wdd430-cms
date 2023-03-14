@@ -1,3 +1,9 @@
 input.ng-invalid {
     border: 1px solid red;
 }
+.panel-body{
+        background-color: rgb(87, 217, 27,0.3);
+}
+.form-control-body{
+    min-height: 300px;
+}

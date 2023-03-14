@@ -1,5 +1,6 @@
 <a class="list-group-item clearfix documentDiv" 
     routerLinkActive="active" [routerLink]="document._id.toString()">
-    <h4>{{document.title}}</h4>
-    <p>{{document.body}}</p>
+    <h4 class="postheader">{{document.title}}</h4>
+    <h5>{{document.author}}</h5>
+    <p class="postbody">{{document.body}}</p>
 </a>

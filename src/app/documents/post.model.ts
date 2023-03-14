@@ -3,6 +3,7 @@ export default class Post{
         public _id: String,
         public title: String,
         public body: String,
+        public author:String
     ) {
         
     }

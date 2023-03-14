@@ -29,6 +29,10 @@ const appRoutes: Routes = [
                 component: DocumentEditComponent
             },
             {
+                path: 'mine',
+                component: DocumentEditComponent
+            },
+            {
                 path: ':id',
                 component: DocumentDetailComponent
             },

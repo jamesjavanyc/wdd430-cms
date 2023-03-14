@@ -2,7 +2,8 @@
     <div class="panel-heading">
         <div class="row pad-all">
             <h4 class="title margin-left-right">{{document?.title}}</h4>
-            <div class="row pull-right margin-left-right">
+            <h5><span>Author:</span>{{document.author}}</h5>
+            <div class="row pull-right margin-left-right" *ngIf="document.author == this.auth.email">
                 <a class="btn btn-info" [routerLink]="'edit'">Edit</a>
                 <a class="btn btn-danger" (click)="onDelete()">Delete</a>
             </div>
@@ -11,7 +12,6 @@
     <div class="panel-body">
         <div class="pad-left-right">
             <div class="row">
-                <label>Description:</label>
                 <span class="label-value">{{document?.body}}</span>
             </div>
             <br>

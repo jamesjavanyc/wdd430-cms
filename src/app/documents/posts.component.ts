@@ -23,7 +23,10 @@ export class DocumentsComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.router.navigate(['/posts'], { relativeTo: this.route });
+    let urls = window.location.href.split("/")
+    if (urls[urls.length - 1] !== "mine") {
+      this.router.navigate(['/posts'], { relativeTo: this.route });
+    }
     this.auth.email$.subscribe(email => {
       if (!this.auth.email) {
         this.router.navigate(['/login']);

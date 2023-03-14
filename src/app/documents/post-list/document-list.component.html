@@ -1,15 +1,18 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="row pad-left-right">
-            <span class="pull-left title">Posts</span>
-            <a class="btn btn-success pull-right" [routerLink]="'new'">Add a post</a>
+            <p class="title">Posts</p>
         </div>
     </div>
     <div class="panel-body">
-        <div class="center-panel">
-            <cms-document-item *ngFor="let document of documents" 
+        <div class="center-panel" *ngIf="this.mine">
+            <cms-document-item *ngFor="let document of documents | postsFilter:[this.auth.email]" 
+                [document]="document"></cms-document-item>
+        </div>
+
+        <div class="center-panel" *ngIf="!this.mine">
+            <cms-document-item *ngFor="let document of documents " 
                 [document]="document"></cms-document-item>
         </div>
     </div>
-
 </div>

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { AuthService } from '@app/service/auth.service';
 import { Subscription } from 'rxjs';
 import Post from '../post.model';
 import { DocumentService } from '../posts.service';
@@ -12,11 +13,17 @@ export class DocumentListComponent implements OnInit {
 
   private subscription: Subscription;
 
-  constructor(public documentService: DocumentService) {
+  public mine: boolean = false;
+
+  constructor(public documentService: DocumentService, public auth:AuthService) {
     
   }
   
   ngOnInit(): void {
+    let urls = window.location.href.split("/")
+    if (urls[urls.length - 1] == "mine") {
+      this.mine = true
+    }
     this.documents = this.documentService.getDocuments();
     this.subscription = this.documentService.documentListChangedEvent.subscribe((documents: Post[]) => {
       this.documents = documents;

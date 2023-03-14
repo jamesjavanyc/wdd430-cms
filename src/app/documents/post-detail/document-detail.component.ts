@@ -1,3 +1,4 @@
+import { AuthService } from './../../service/auth.service';
 import { DocumentService } from '../posts.service';
 import { Component, OnInit } from '@angular/core';
 import Post from '../post.model';
@@ -16,7 +17,8 @@ export class DocumentDetailComponent implements OnInit {
   constructor(private documentService: DocumentService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private windowRefService: WindRefService
+    private windowRefService: WindRefService,
+    public auth: AuthService
   ) {
     this.nativeWindow = windowRefService.getNativeWindow();
   }

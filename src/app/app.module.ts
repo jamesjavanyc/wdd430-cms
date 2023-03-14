@@ -16,6 +16,7 @@ import { DocumentListComponent } from './documents/post-list/document-list.compo
 import { DocumentItemComponent } from './documents/post-item/document-item.component';
 import { DocumentDetailComponent } from './documents/post-detail/document-detail.component';
 import { DocumentEditComponent } from './documents/post-edit/document-edit.component';
+import { PostsFilterPipe } from './documents/post-filter.pipe';
 
 @NgModule({
   // 声明组件， 管道符 指令
@@ -29,7 +30,8 @@ import { DocumentEditComponent } from './documents/post-edit/document-edit.compo
     DocumentListComponent,
     DocumentItemComponent,
     DocumentDetailComponent,
-    DocumentEditComponent
+    DocumentEditComponent,
+    PostsFilterPipe
   ],
   // 模块 针对全局
   imports: [

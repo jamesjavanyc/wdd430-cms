@@ -1,3 +1,4 @@
+import { AuthService } from './../../service/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import Post from '../post.model';
@@ -11,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./document-edit.component.css']
 })
 export class DocumentEditComponent implements OnInit {
-  constructor(private documentService: DocumentService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private documentService: DocumentService, private router: Router, private route: ActivatedRoute, private auth:AuthService) { }
 
   originalDocument: Post;
 
@@ -21,7 +22,7 @@ export class DocumentEditComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     const values = form.value;
-    const newDocument = new Post(null, values.name, values.description);
+    const newDocument = new Post(null, values.name, values.description, this.auth.email)
     if (this.editMode === true) {
       console.log("edit")
 			this.documentService.updateDocument(this.originalDocument, newDocument);

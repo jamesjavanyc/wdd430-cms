@@ -1,0 +1,10 @@
+.blog-container{
+    background-image: url("../assets/blog-bg.jpg");
+    min-height:94vh;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    padding:25px;
+    display: flex;
+    justify-content: center;
+}

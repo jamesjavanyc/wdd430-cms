@@ -12,7 +12,8 @@
             <div class="row">
                 <div class="col-sm-12 form-group">
                     <label for="description">Post body:</label>
-                    <input type="text" id="description" [ngModel]="originalDocument?.body" name="description" class="form-control" size="120" max="255">
+                    <textarea type="text" id="description" [ngModel]="originalDocument?.body" name="description" class="form-control form-control-body" size="600" max="65500">
+                    </textarea>
                 </div>
             </div>
 

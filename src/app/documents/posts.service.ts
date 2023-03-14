@@ -32,7 +32,6 @@ export class DocumentService {
         headers: headers
       }).subscribe({
         next: response => {
-          console.log(response)
           this.documents = response
           this.documentListChangedEvent.next(this.documents.slice());
         },

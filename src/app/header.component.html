@@ -1,17 +1,18 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="#" class="navbar-brand">WDD430 - Final Project Blog</a>
+            <a [routerLink]="" class="navbar-brand">WDD430 - Final Project Blog</a>
         </div>
         <div class="collapse navbar-collapse" *ngIf="isLogined">
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown" cmsDropdown>
                     <a  class="dropdown-toggle" role="button">{{auth.email}} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Setting</a></li>
-                        <li><a href="#">See posts</a></li>
+                        <li><a [routerLink]="'/posts/new'">Create post</a></li>
                         <hr>
-                        <li><a href="#" (click)="onLogout">Logout</a></li>
+                        <li><a [routerLink]="'/posts/mine'">My posts</a></li>
+                        <hr>
+                        <li><a href="#" (click)="onLogout()">Logout</a></li>
                     </ul>
                 </li>
             </ul>
