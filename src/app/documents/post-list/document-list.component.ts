@@ -22,6 +22,7 @@ export class DocumentListComponent implements OnInit {
   ngOnInit(): void {
     let urls = window.location.href.split("/")
     if (urls[urls.length - 1] == "mine") {
+      console.log("Only show mine")
       this.mine = true
     }
     this.documents = this.documentService.getDocuments();

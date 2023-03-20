@@ -3,10 +3,6 @@
         <div class="row pad-all">
             <h4 class="title margin-left-right">{{document?.title}}</h4>
             <h5><span>Author:</span>{{document.author}}</h5>
-            <div class="row pull-right margin-left-right" *ngIf="document.author == this.auth.email">
-                <a class="btn btn-info" [routerLink]="'edit'">Edit</a>
-                <a class="btn btn-danger" (click)="onDelete()">Delete</a>
-            </div>
         </div>
     </div>
     <div class="panel-body">
@@ -15,6 +11,11 @@
                 <span class="label-value">{{document?.body}}</span>
             </div>
             <br>
+        </div>
+        <div class="row pull-right margin-left-right" *ngIf="document.author == this.auth.email">
+            <a class="btn btn-info" [routerLink]="'edit'" style=" width: 65px; background-color: green;">Edit</a>
+            <span style=" margin-right: 15px;">&nbsp;</span>
+            <a class="btn btn-danger" (click)="onDelete()" style=" width: 65px;">Delete</a>
         </div>
     </div>
 </div>

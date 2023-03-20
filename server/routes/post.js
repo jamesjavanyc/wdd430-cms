@@ -25,20 +25,25 @@ router.delete("/:id", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
     try {
-        Post.findOne({ id: req.params.id })
-        .then(post => {
-            post.title = req.body.title
-            post.body = req.body.body
-            Post.updateOne({ _id: req.params.id }, post)
+        // Post.findOne({ id: req.params.id })
+        //     .then(post => {
+        //     _id: req.params.id
+        //     post.title = req.body.title
+        //     post.body = req.body.body
+        Post.updateOne({ _id: req.params.id }, {
+                title :req.body.title,
+                body : req.body.body
+            })
                 .then(result => {
                     res.status(204).json({
                         message: 'Contact updated successfully'
                     })
                 })
                 .catch(error => {
-                    responseError(res, error);
+                    console.log(error)
+                    res.status(500).json( error);
                 });
-        })
+        // })
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
